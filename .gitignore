@@ -1,0 +1,10 @@
+# Ignore Python cache directories
+__pycache__/
+*.py[cod]
+
+# Ignore everything in the data folder
+data/*
+
+# But do not ignore the data folder itself and its contents
+!data/
+
