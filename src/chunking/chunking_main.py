@@ -1,5 +1,6 @@
 import os
 from ..utils import web_dataloader
+import yaml
 
 from numpy import dot
 from numpy.linalg import norm
@@ -9,25 +10,32 @@ import csv, json, math, os, random, re, sys, time, torch, traceback, transformer
 from datetime import datetime
 import torch
 
+with open('config.yaml', 'r') as file:
+    config = yaml.safe_load(file)
 
-def set_chunking_env():
-    # tells the logging utility which information to display(verbosity). 
-    # Here we have set that it only shows us errors
-    transformers.logging.set_verbosity_error()
-    warnings.filterwarnings('ignore', category=UserWarning)
+# tells the logging utility which information to display(verbosity). 
+# Here we have set that it only shows us errors
+transformers.logging.set_verbosity_error()
+warnings.filterwarnings('ignore', category=UserWarning)
 
-    # options in order to parallelize
-    os.environ['OMP_NUM_THREADS'] = '1'
-    os.environ['TOKENIZERS_PARALLELISM'] = 'false'
+# options in order to parallelize
+os.environ['OMP_NUM_THREADS'] = str(config['Env_Variables']['omp_num_threads'])
+os.environ['TOKENIZERS_PARALLELISM'] = str(config['Env_Variables']['tokenizers_parallelism'])
 
 
 def main():
 
-    set_chunking_env()
+    websites_root = config['Paths']['websites_root']
 
-    web_dl = web_dataloader.WebPDataLoader()
+    web_dl = web_dataloader.WebPDataLoader(websites_root)
+    web_dl.load()
+    web_dl.preprocess_df()
+    web_data_df = web_dl.get_df()
 
-    df = web_dl.load() # NOt finished (input file path)
+
+if __name__ == "__main__":
+    main()
+
 
 
 
