@@ -7,9 +7,13 @@ class WebPDataLoader:
     This class is responsible for loading the webdata into a dataframe
     '''
 
-    def load(self, dir_path):
+    def __init__(self, dir_path):
+        self.dir_path = dir_path
+        self.df = pd.DataFrame()
+
+    def load(self):
         data = []
-        for root, dirs, files in os.walk(dir_path):  # Adjust the root path if needed
+        for root, dirs, files in os.walk(self.dir_path):  # Adjust the root path if needed
             for file in files:
                 if file.endswith('.txt'):  # Only process files named 'output.txt'
                     file_path = os.path.join(root, file)
@@ -35,9 +39,7 @@ class WebPDataLoader:
                     data.append(file_info)
 
         # Convert the list of dictionaries into a pandas DataFrame
-        df = pd.DataFrame(data)
-
-        return df
+        self.df = pd.DataFrame(data)
 
 
     def preprocess_text(self):
@@ -51,5 +53,13 @@ class WebPDataLoader:
             return text
 
 
-    def preprocess_df(self, df, preproc_func=preprocess_text):
-        df['cleaned_content'] = df['content'].apply(preproc_func)
+    def preprocess_df(self, preproc_func=preprocess_text):
+        self.df['cleaned_content'] = self.df['content'].apply(preproc_func)
+
+    def get_df(self):
+        return self.df
+
+    def get_path(self):
+        return self.dir_path
+
+
