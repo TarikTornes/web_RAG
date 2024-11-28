@@ -1,0 +1,8 @@
+Paths:
+  embeddings_path: jinaai/jina-embeddings-v2-base-en
+
+Env_Variables:
+  omp_num_threads: 1
+  tokenizer_parallelism: false
+
+
