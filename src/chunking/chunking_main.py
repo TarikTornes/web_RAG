@@ -1,14 +1,7 @@
-import os
-from ..utils import web_dataloader
-import yaml
+from ..utils import web_dataloader, check_device
+import chunker
 
-from numpy import dot
-from numpy.linalg import norm
-import pandas as pd
-import pickle
-import csv, json, math, os, random, re, sys, time, torch, traceback, transformers, warnings
-from datetime import datetime
-import torch
+import os, yaml, transformers, warnings, pickle
 
 with open('config.yaml', 'r') as file:
     config = yaml.safe_load(file)
@@ -25,12 +18,23 @@ os.environ['TOKENIZERS_PARALLELISM'] = str(config['Env_Variables']['tokenizers_p
 
 def main():
 
+    check_device()
+
     websites_root = config['Paths']['websites_root']
 
-    web_dl = web_dataloader.WebPDataLoader(websites_root)
-    web_dl.load()
-    web_dl.preprocess_df()
-    web_data_df = web_dl.get_df()
+    web_df = web_dataloader.load_data(websites_root)
+
+    chunks_all, chunks_dict = chunker.chunk_data(web_df)
+
+    data_to_save = {
+        "chunks_all": chunks_all,
+        "chunks_dict": chunks_dict
+    }
+
+    with open("../data/chunks.pkl") as f:
+        pickle.dump(data_to_save,f)
+
+    return data_to_save
 
 
 if __name__ == "__main__":
