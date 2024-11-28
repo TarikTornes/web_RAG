@@ -1,9 +1,10 @@
-from ..utils import web_dataloader, check_device
-import chunker
+from ..utils import web_dataloader
+from ..utils.check_device import check_device
+from . import text_splitter
 
 import os, yaml, transformers, warnings, pickle
 
-with open('config.yaml', 'r') as file:
+with open('configs/config.yaml', 'r') as file:
     config = yaml.safe_load(file)
 
 # tells the logging utility which information to display(verbosity). 
@@ -20,18 +21,17 @@ def main():
 
     check_device()
 
-    websites_root = config['Paths']['websites_root']
 
-    web_df = web_dataloader.load_data(websites_root)
+    web_df = web_dataloader.load_data(config['Paths']['websites_root'])
 
-    chunks_all, chunks_dict = chunker.chunk_data(web_df)
+    chunks_all, chunks_dict = text_splitter.chunk_data(web_df, config)
 
     data_to_save = {
         "chunks_all": chunks_all,
         "chunks_dict": chunks_dict
     }
-
-    with open("../data/chunks.pkl") as f:
+    print("Current working directory:", os.getcwd())
+    with open("data/chunks.pkl", 'wb') as f:
         pickle.dump(data_to_save,f)
 
     return data_to_save
