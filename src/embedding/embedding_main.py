@@ -1,13 +1,13 @@
 from ..utils.check_device import check_device
 from ..utils.logging import log
 from ..utils.load_conf import load_conf
-from embedding_model import Embedding_Model
+from .embedding_model import Embedding_Model
 
 import pickle
 
 def main():
 
-    with open("chunks_data.pkl", "rb") as f:
+    with open("data/chunks.pkl", "rb") as f:
         loaded_data = pickle.load(f)
 
     # chunks_dict = loaded_data["chunks_dict"]
@@ -26,7 +26,7 @@ def main():
         "hidden_size": embedding_mod.get_hidden_size()
     }
 
-    with open("embedded_chunks.pkl", "wb") as f:
+    with open("data/embeddings.pkl", "wb") as f:
         pickle.dump(data_to_save, f)
 
     log("INFO", "Embedding: embeddings successfully pickled")
