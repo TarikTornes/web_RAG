@@ -9,11 +9,11 @@ class EmbeddingDB:
 
     def __init__(self, embeddings_path, embeddings, chunks_dict):
         self.embeddings_config = AutoConfig.from_pretrained(embeddings_path)
-        self.embeddings_model = AutoModel.from_pretrained(embeddings_path)
+        self.embeddings_model = AutoModel.from_pretrained(embeddings_path, trust_remote_code=True, device_map="auto")
         self.hidden_size = self.embeddings_config.hidden_size
 
         self.index = faiss.IndexFlatL2(self.hidden_size)
-        self.index = self.index.add(embeddings)
+        self.index.add(embeddings)
         self.embeddings = embeddings
         self.chunks_dict = chunks_dict
         log("INFO", "Query: EmbeddingDB successfully loaded")
@@ -30,9 +30,9 @@ class EmbeddingDB:
             vec = self.embeddings[j]
             chunk = self.chunks_dict[j]
             results.append((j,chunk))
-            log("QUERY_RESULTS", "CHUNK", i, j, round(D[0][i], 3), \
+            log("QUERY_RESULTS", str(["CHUNK", i, j, round(D[0][i], 3), \
                 round(cos_sim(query[0], vec), 3), \
-                re.sub('\n', ' ', self.chunks_dict[j]))
+                re.sub('\n', ' ', self.chunks_dict[j])]))
 
         return results
 

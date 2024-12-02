@@ -2,8 +2,9 @@ from ..utils.logging import log
 from ..utils.load_conf import load_conf
 from ..utils.check_device import check_device
 from .embedding_db import EmbeddingDB
+from .llama_model import Llama_model
 
-import pickle, os, faiss
+import pickle, os
 
 
 def main():
@@ -21,6 +22,40 @@ def main():
 
 
     db = EmbeddingDB(config["Paths"]["embeddings_path"], data1["embeddings"], data2["chunks_dict"])
+
+    print(config["Paths"]["llama_cpp_path"])
+    print("Current Working Directory:", os.getcwd())
+
+    model = Llama_model(config["Paths"]["llama_cpp_path"])
+
+
+    while True:
+
+        print("Whats your question (\"none\" to abort) ?")
+
+        question = str(input())
+
+        if question == "none":
+            break
+
+        print("\nCorresponding Query for better search: ")
+        query = str(input())
+
+        query_res = db.get_k_Results(query, config["General"]["k-nearest"])
+
+        answer = model.getAnswer(query_res, question)
+
+        print(answer)
+
+
+if __name__=="__main__":
+    main()
+
+        
+
+
+
+
 
 
 
