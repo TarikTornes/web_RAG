@@ -1,11 +1,10 @@
 from ..utils.logging import log
 from ..utils.computations import cos_sim
-
 import faiss, re
 from transformers import AutoConfig, AutoModel
 
 
-class EmbeddingDB:
+class IndexDB:
 
     def __init__(self, embeddings_path, embeddings, chunks_dict):
         self.embeddings_config = AutoConfig.from_pretrained(embeddings_path)
