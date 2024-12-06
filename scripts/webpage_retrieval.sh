@@ -9,6 +9,7 @@ fi
 # Extract domain from the provided URL
 DOMAIN=$(echo "$1" | sed -e 's|https://||' -e 's|http://||' -e 's|/.*||')
 
+
 # Create a directory for downloads
 mkdir -p "$DOMAIN"
 cd "$DOMAIN"
@@ -17,9 +18,9 @@ cd "$DOMAIN"
 wget \
     --recursive \
     --no-parent \
+    --reject=css,js,jpg,jpeg,png,gif \
+    --accept html \
     --domains="$DOMAIN" \
-    --page-requisites \
-    --html-extension \
     --convert-links \
     --restrict-file-names=windows \
     --no-clobber \
