@@ -5,8 +5,10 @@ __pycache__/
 # Ignore everything in the data folder
 data/*
 models/*
+logs/*
 
 # But do not ignore the data folder itself and its contents
 !data/
 !models/
+!logs/
 
