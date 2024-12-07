@@ -57,8 +57,9 @@ def chunk_data(df, config):
                     print(i, "CHUNKS CREATED")
                 i += 1
 
-        if i>100:
-            break
+        
+        # if i>100:
+        #     break
 
     return chunks_all, chunks_dict
 
