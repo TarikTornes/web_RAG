@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 import re
+from .logging import log
 
 
 class WebPDataLoader:
@@ -14,11 +15,9 @@ class WebPDataLoader:
 
     def load(self):
         data = []
-        print(self.dir_path)
 
         for root, dirs, files in os.walk(self.dir_path):  # Adjust the root path if needed
             for file in files:
-                print(file)
                 if file.endswith('.txt'):  # Only process files named 'output.txt'
                     file_path = os.path.join(root, file)
                     url = file_path.replace(".txt", ".html")
@@ -30,7 +29,7 @@ class WebPDataLoader:
                             content = f.read()
                     except UnicodeDecodeError:
                         # If it fails, skip the file and print a warning
-                        print(f"Skipping file (cannot decode): {file_path}")
+                        log("WARNING",f"Skipping file (cannot decode): {file_path}")
                         continue
                         
                     # Create a dictionary for the current file
@@ -44,6 +43,7 @@ class WebPDataLoader:
 
         # Convert the list of dictionaries into a pandas DataFrame
         self.df = pd.DataFrame(data)
+        log("INFO", "web data loaded")
 
 
     def preprocess_text(self,text):
