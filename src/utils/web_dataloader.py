@@ -16,7 +16,11 @@ class WebPDataLoader:
     def load(self):
         data = []
 
+        print(self.dir_path)
+
         for root, dirs, files in os.walk(self.dir_path):  # Adjust the root path if needed
+            print(files)
+            
             for file in files:
                 if file.endswith('.txt'):  # Only process files named 'output.txt'
                     file_path = os.path.join(root, file)
@@ -43,7 +47,9 @@ class WebPDataLoader:
 
         # Convert the list of dictionaries into a pandas DataFrame
         self.df = pd.DataFrame(data)
+        print(self.df.head)
         log("INFO", "web data loaded")
+        return None
 
 
     def preprocess_text(self,text):
