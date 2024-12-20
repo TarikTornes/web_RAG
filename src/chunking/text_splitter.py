@@ -1,6 +1,8 @@
 from langchain_experimental.text_splitter import SemanticChunker
+from langchain_text_splitters import SentenceTransformersTokenTextSplitter
 from typing import Optional
 from .custom_embeddings import CustomEmbeddings
+
 
 class SemanticChunkerConfig:
     @classmethod
@@ -14,6 +16,17 @@ class SemanticChunkerConfig:
         )
 
 
+class TokenChunkerConfig:
+
+    @classmethod
+    def create(cls, chunk_overlap: int = 30, tokens_per_chunk: int = 200):
+
+        return SentenceTransformersTokenTextSplitter(chunk_overlap=chunk_overlap, model_name='sentence-transformers/all-mpnet-base-v2', tokens_per_chunk=tokens_per_chunk)
+
+
+
+
+
 def chunk_data(df, config):
     """This function is supposed to chunk data into smaller text blocks
 
@@ -24,15 +37,18 @@ def chunk_data(df, config):
     """
 
 
-    text_splitter = SemanticChunkerConfig.create(config["Paths"]["embeddings_path"],config["General"]["device"])
+    # text_splitter = SemanticChunkerConfig.create(config["Chunking"]["embeddings_path"], config["General"]["device"])
+    text_splitter = TokenChunkerConfig.create(config["Paths"]["chunk_overlap"], config["General"]["tokens_per_chunk"])
 
     chunks_all = []
     chunks_dict = {}
+    web_page = []
+    web_page_dict = {}
 
     i = 0
     counter = 0
 
-    for idx, row in df.iterrows():
+    for _, row in df.iterrows():
         counter += 1
     
         if True:
@@ -41,6 +57,7 @@ def chunk_data(df, config):
             #chunks = create_chunks(tokens, MAX_CHKS, tokenizer)
         
             chunks = text_splitter.create_documents([row['cleaned_content'].strip()])
+            
 
             if i <= 10:
                 print("\n---------------------------------\n")
@@ -50,6 +67,9 @@ def chunk_data(df, config):
             for chunk in chunks:
                 chunks_all.append(chunk.page_content)
                 chunks_dict[i] = chunk.page_content
+                web_page.append(row['url'])
+                web_page_dict[i] = row['url']
+
                 if i <= 10:
                     print("CHUNK", i, chunk.page_content)
                     print()
