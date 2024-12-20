@@ -112,7 +112,7 @@ class Llama_model:
             if input:
                 formatted_prompt = (
                     f"<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\n"
-                    f"You are an assistant serving as a website bot. You will be given an Instruction and an Input text from the website from which you need to reply to the instruction in a concise manner. If you cannot deduce the answer from the given text reply with: \"I am not able to retrieve the necessary information.\". \n<|eot_id|><|start_header_id|>user<|end_header_id|>Instruction:\n{instruction}\n\n Input:\n{input}\n\n<|eot_id|><|start_header_id|>assistant<|end_header_id|>"
+                    f"You are an assistant serving as a website bot. You will be given an Instruction and an Input text from which you will get your information in order to reply to the instruction in a concise manner.\n<|eot_id|><|start_header_id|>user<|end_header_id|>Instruction:\n{instruction}\n\n Input:\n{input}\n\n<|eot_id|><|start_header_id|>assistant<|end_header_id|>"
                 )
             else:
                 formatted_prompt = (
