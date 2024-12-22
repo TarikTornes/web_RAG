@@ -37,8 +37,8 @@ def chunk_data(df, config):
     """
 
 
-    # text_splitter = SemanticChunkerConfig.create(config["Chunking"]["embeddings_path"], config["General"]["device"])
-    text_splitter = TokenChunkerConfig.create(config["Paths"]["chunk_overlap"], config["General"]["tokens_per_chunk"])
+    # text_splitter = SemanticChunkerConfig.create(config["Paths"]["embeddings_path"], config["General"]["device"])
+    text_splitter = TokenChunkerConfig.create(config["Chunking"]["chunk_overlap"], config["Chunking"]["tokens_per_chunk"])
 
     chunks_all = []
     chunks_dict = {}
@@ -81,7 +81,7 @@ def chunk_data(df, config):
         # if i>100:
         #     break
 
-    return chunks_all, chunks_dict
+    return chunks_all, chunks_dict, web_page_dict
 
 
 

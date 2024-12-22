@@ -19,7 +19,10 @@ def main():
         data2 = pickle.load(f)
 
 
-    db = IndexDB(config["Paths"]["embeddings_path"], data1["embeddings"], data2["chunks_dict"])
+    db = IndexDB(config["Paths"]["embeddings_path"], 
+                 data1["embeddings"], 
+                 data2["chunks_dict"], 
+                 data2["web_page_dict"])
 
 
     model = Llama_model(config["Paths"]["llama_cpp_path"])
@@ -39,6 +42,8 @@ def main():
         query = str(input())
 
         query_res = db.get_k_Results(query, config["General"]["k-nearest"])
+
+        
 
         answer = model.getAnswer(query_res, question)
 

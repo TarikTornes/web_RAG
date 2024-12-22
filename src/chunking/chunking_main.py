@@ -24,11 +24,12 @@ def main():
 
     web_df = web_dataloader.load_data(config['Paths']['websites_root'])
 
-    chunks_all, chunks_dict = text_splitter.chunk_data(web_df, config)
+    chunks_all, chunks_dict, web_page_dict = text_splitter.chunk_data(web_df, config)
 
     data_to_save = {
         "chunks_all": chunks_all,
-        "chunks_dict": chunks_dict
+        "chunks_dict": chunks_dict,
+        "web_page_dict": web_page_dict
     }
     print("Current working directory:", os.getcwd())
     with open("data/chunks.pkl", 'wb') as f:

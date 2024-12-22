@@ -2,6 +2,7 @@ from accelerate import Accelerator
 from llama_cpp import Llama
 from langchain.callbacks.manager import CallbackManager
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
+from ..utils.instruction_format import instruction_format
 
 
 class Llama_model:
@@ -112,7 +113,7 @@ class Llama_model:
             if input:
                 formatted_prompt = (
                     f"<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\n"
-                    f"You are an assistant serving as a website bot. You will be given an Instruction and an Input text from which you will get your information in order to reply to the instruction in a concise manner.\n<|eot_id|><|start_header_id|>user<|end_header_id|>Instruction:\n{instruction}\n\n Input:\n{input}\n\n<|eot_id|><|start_header_id|>assistant<|end_header_id|>"
+                        f"You are an assistant serving as a website bot. You will be given an Instruction and an Input text from which you will get your information in order to reply to the instruction in a concise manner and output at the end also the URL where the key information was found, which is stated at the beginning of each chunk after the \"FROM:\" token.\n<|eot_id|><|start_header_id|>user<|end_header_id|>Instruction:\n{instruction}\n\n Input:\n{input}\n\n<|eot_id|><|start_header_id|>assistant<|end_header_id|>"
                 )
             else:
                 formatted_prompt = (
@@ -128,7 +129,10 @@ class Llama_model:
 
 
     def getAnswer(self, query_results, INSTRUCTION, MAX_TOKENS=1024):
-        alpaca = self.get_formatted_prompt(INSTRUCTION, input='\n'.join(result[1] for result in query_results))
+        input = instruction_format(query_results)
+
+        alpaca = self.get_formatted_prompt(INSTRUCTION, input=input)
+
         answer = self.model(alpaca, max_tokens=MAX_TOKENS)
         print("\n------------------------------------------\n")
         return answer['choices'][0]['text']
