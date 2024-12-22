@@ -25,9 +25,11 @@ def replace_text_before(target_string, marker, replacement):
     :param replacement: The string to replace the text before the marker.
     :return: Modified string with the replacement applied.
     """
-    pattern = rf"^(.*?){re.escape(marker)}(.*?)(/index\.html)?$"
+    pattern = rf"^(.*?)({re.escape(marker)})"
     result = re.sub(pattern, replacement + r"\2", target_string)
+    result = result.removesuffix("index.html")
     return result
+
 
 
 
