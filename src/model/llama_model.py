@@ -113,8 +113,67 @@ class Llama_model:
             if input:
                 formatted_prompt = (
                     f"<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\n"
-                        f"You are an assistant serving as a website bot. You will be given an Instruction and an Input text from which you will get your information in order to reply to the instruction in a concise manner and output at the end also the URL where the key information was found, which is stated at the beginning of each chunk after the \"FROM:\" token.\n<|eot_id|><|start_header_id|>user<|end_header_id|>Instruction:\n{instruction}\n\n Input:\n{input}\n\n<|eot_id|><|start_header_id|>assistant<|end_header_id|>"
+                    f"When you receive an instruction, use the Input to generate an answer to the original user question.\n"
+                    f"The Input consists of the most relevant documents for the given instruction and their source URL after the\n"
+                    f"[\"FROM:\"] token.\n\n"
+                    f"You are a helpful assistant serving as a website bot.<|eot_id|>\n"
+                    f"<|start_header_id|>user<|end_header_id|>\n\n"
+                    f"Please reply to the following instruction in a concise manner and"
+                    f"provide exactly one URL where the most important information can be found.\n\n"
+                    f" If the input does not contain the exactly correct information, reply in the format:\n"
+                    f"Sorry I could not reply to your question maybe you can find some information on [\"URL\"]\n\n"
+                    f"### Input:\n{input}\n\n"
+                    f"### Instruction:\n{instruction}<|eot_id|>\n"
+                    f"<|start_header_id|>assistant<|end_header_id|>"
                 )
+
+            else:
+                formatted_prompt = (
+                    f"<|begin_of_text|><|start_header_id|>user<|end_header_id|>\n\n"
+                    f"Below is an instruction that describes a task. Write a response that appropriately completes the request.\n\n### Instruction:\n{instruction}\n\n### Response:\n"
+                    f"<|eot_id|>"
+                )
+            
+        return formatted_prompt
+
+
+    def get_formatted_prompt3(self, instruction, input=None, output=None):
+
+        if output:
+            if not input:
+                formatted_prompt = (
+                    f"<|begin_of_text|><|start_header_id|>user<|end_header_id|>\n\n"
+                    f"Below is an instruction that describes a task. Write a response that appropriately completes the request.\n\n### Instruction:\n{instruction}\n\n### Response:\n"
+                    f"<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+                    f"{output}"
+                    f"<|eot_id|><|end_of_text|>"
+                )
+            else:
+                formatted_prompt = (
+                    f"<|begin_of_text|><|start_header_id|>user<|end_header_id|>\n\n"
+                    f"Below is an instruction that describes a task. Write a response that appropriately completes the request.\n\n### Instruction:\n{instruction}\n\n### Input:\n{input}\n\n### Response:\n"
+                    f"<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+                    f"{output}"
+                    f"<|eot_id|><|end_of_text|>"
+            )
+        else:
+            if input:
+                formatted_prompt = (
+                    f"<|start_header_id|>system<|end_header_id|>\n\n"
+                    f"You are a helpful assistant serving as a website bot.<|eot_id|>\n\b"
+                    f"When you receive an instruction, use the information from the Input to generate an answer to the original user question, without citing it.\n"
+                    f"The Input consists of the most relevant documents for the given instruction and their source URL located after the\n"
+                    f"[\"FROM:\"] token.\n"
+                    f"<|start_header_id|>user<|end_header_id|>\n\n"
+                    f"Please reply to the following instruction in a concise manner.\n"
+                    f"Provide exactly one URL where the most important information can be found.\n\n"
+                    f"If the input does not contain the correct information or there is information missing, reply in the format:\n"
+                    f"\"Sorry I could not reply to your question maybe you can find some information here: [\"URL\"]\"\n\n"
+                    f"### Input:\n{input}\n\n"
+                    f"### Instruction:\n{instruction}<|eot_id|>\n"
+                    f"<|start_header_id|>assistant<|end_header_id|>"
+                )
+
             else:
                 formatted_prompt = (
                     f"<|begin_of_text|><|start_header_id|>user<|end_header_id|>\n\n"
@@ -128,10 +187,11 @@ class Llama_model:
 
 
 
+
     def getAnswer(self, query_results, INSTRUCTION, MAX_TOKENS=1024):
         input = instruction_format(query_results)
 
-        alpaca = self.get_formatted_prompt(INSTRUCTION, input=input)
+        alpaca = self.get_formatted_prompt3(INSTRUCTION, input=input)
 
         answer = self.model(alpaca, max_tokens=MAX_TOKENS)
         print("\n------------------------------------------\n")

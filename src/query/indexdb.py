@@ -7,8 +7,10 @@ from transformers import AutoConfig, AutoModel
 class IndexDB:
 
     def __init__(self, embeddings_path, embeddings, chunks_dict, web_page_dict):
+
         self.embeddings_config = AutoConfig.from_pretrained(embeddings_path)
         self.embeddings_model = AutoModel.from_pretrained(embeddings_path, trust_remote_code=True, device_map="auto")
+
         self.hidden_size = self.embeddings_config.hidden_size
 
         self.index = faiss.IndexFlatL2(self.hidden_size)

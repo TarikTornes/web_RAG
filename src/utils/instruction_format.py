@@ -9,7 +9,7 @@ def instruction_format(query_ls):
 
         url_link = replace_text_before(url_link, "www", "https://")
         
-        instr = instr + f"""FROM WEBPAGE: {url_link}\n{chunk}\n\n"""
+        instr = instr + f"""FROM: {url_link}\n{chunk}\n\n"""
 
     return instr
 

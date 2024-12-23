@@ -38,13 +38,12 @@ def main():
         if question == "none":
             break
 
-        print("\nCorresponding Query for better search: ")
-        query = str(input())
+        # print("\nCorresponding Query for better search: ")
+        # query = str(input())
 
-        query_res = db.get_k_Results(query, config["General"]["k-nearest"])
+        query_res = db.get_k_Results(question, config["General"]["k-nearest"])
 
         
-
         answer = model.getAnswer(query_res, question)
 
         print(answer)
