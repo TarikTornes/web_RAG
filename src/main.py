@@ -6,6 +6,7 @@ from .model.llama_model import Llama_model
 
 import pickle
 
+
 def main():
 
     check_device()
@@ -28,6 +29,7 @@ def main():
     model = Llama_model(config["Paths"]["llama_cpp_path"])
 
 
+    # Q&A Loop
     while True:
         log("INFO", "Started loop")
 
@@ -38,11 +40,7 @@ def main():
         if question == "none":
             break
 
-        # print("\nCorresponding Query for better search: ")
-        # query = str(input())
-
         query_res = db.get_k_Results(question, config["General"]["k-nearest"])
-
         
         answer = model.getAnswer(query_res, question)
 

@@ -14,7 +14,8 @@ class Llama_model:
             max_tokens=8192,
             n_ctx=12000,
             f16_kv=True,
-            callback_manager=CallbackManager([StreamingStdOutCallbackHandler()])
+            verbose=False
+            #callback_manager=CallbackManager([StreamingStdOutCallbackHandler()])
         )
 
 
@@ -157,20 +158,32 @@ class Llama_model:
                     f"<|eot_id|><|end_of_text|>"
             )
         else:
+
             if input:
                 formatted_prompt = (
                     f"<|start_header_id|>system<|end_header_id|>\n\n"
-                    f"You are a helpful assistant serving as a website bot.<|eot_id|>\n\b"
-                    f"When you receive an instruction, use the information from the Input to generate an answer to the original user question, without citing it.\n"
-                    f"The Input consists of the most relevant documents for the given instruction and their source URL located after the\n"
-                    f"[\"FROM:\"] token.\n"
+                    f"You are a knowledgeable assistant helping users find accurate information from a website. Your role is to:\n"
+                    f"1. Provide clear, direct answers based on the provided documents\n"
+                    f"2. Ensure responses are factual and grounded in the source material\n"
+                    f"3. Maintain a professional and helpful tone\n\n"
+                    f"Guidelines:\n"
+                    f"- Focus on the most relevant information from the Input documents\n"
+                    f"- Include always exactly one URL for the primary source\n"
+                    f"- Do not reference the Input documents directly in your response\n"
+                    f"- Keep responses concise and to the point\n"
+                    f"- If information is insufficient, use the error response template<|eot_id|>\n\n"
+                    
                     f"<|start_header_id|>user<|end_header_id|>\n\n"
-                    f"Please reply to the following instruction in a concise manner.\n"
-                    f"Provide exactly one URL where the most important information can be found.\n\n"
-                    f"If the input does not contain the correct information or there is information missing, reply in the format:\n"
-                    f"\"Sorry I could not reply to your question maybe you can find some information here: [\"URL\"]\"\n\n"
+                    f"Answer the following instruction using only information from the provided documents.\n\n"
+                    f"Response format for complete and unibiased information:\n"
+                    f"[Concise answer addressing the instruction]\n"
+                    f"Learn more: [URL]\n\n"
+                    f"Response format for unclear or insufficient information:\n"
+                    f"Sorry, I don't have enough information to fully answer your question. You may find relevant details here: [URL]\n\n"
+                    
                     f"### Input:\n{input}\n\n"
                     f"### Instruction:\n{instruction}<|eot_id|>\n"
+                    
                     f"<|start_header_id|>assistant<|end_header_id|>"
                 )
 
