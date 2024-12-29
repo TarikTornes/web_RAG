@@ -56,13 +56,13 @@ class WebPDataLoader:
 
         text = re.sub(r'\[.*?\]', '', text)  # Removes anything within square brackets
         text = re.sub(r'\s+', ' ', text)  # Replace multiple spaces with a single space
-        text = re.sub(r'\n+', ' ', text)  # Replace newlines with a single space
+        text = re.sub(r'\n+', '\n', text)  # Replace newlines with a single space
 
         # Remove leading/trailing spaces
         text = text.strip()
 
         # Lowercase the entire text (optional, based on your NLP needs)
-        text = text.lower()
+        # text = text.lower()
 
         return text
 

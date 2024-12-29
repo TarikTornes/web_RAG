@@ -138,6 +138,7 @@ class Llama_model:
         return formatted_prompt
 
 
+
     def get_formatted_prompt3(self, instruction, input=None, output=None):
 
         if output:
@@ -161,31 +162,33 @@ class Llama_model:
 
             if input:
                 formatted_prompt = (
+                    
                     f"<|start_header_id|>system<|end_header_id|>\n\n"
-                    f"You are a knowledgeable assistant helping users find accurate information from a website. Your role is to:\n"
-                    f"1. Provide clear, direct answers based on the provided documents\n"
+                    f"You are a knowledgeable assistant helping users find accurate information from the website of the University of Luxembourg. Your role is to:\n"
+                    f"1. Provide a clear, direct answer based on the provided documents\n"
                     f"2. Ensure responses are factual and grounded in the source material\n"
-                    f"3. Maintain a professional and helpful tone\n\n"
+                    f"3. Only respond to questions related to the University\n"
+                    f"4. Maintain a professional and helpful tone\n\n"
                     f"Guidelines:\n"
                     f"- Focus on the most relevant information from the Input documents\n"
-                    f"- Include always exactly one URL for the primary source\n"
-                    f"- Do not reference the Input documents directly in your response\n"
+                    f"- Include ALWAYS exactly one URL for the primary source\n"
                     f"- Keep responses concise and to the point\n"
-                    f"- If information is insufficient, use the error response template<|eot_id|>\n\n"
+                    f"- If the input or documents is insufficient, unclear or not relevant for the instruction, use the error response template<|eot_id|>\n\n"
                     
                     f"<|start_header_id|>user<|end_header_id|>\n\n"
-                    f"Answer the following instruction using only information from the provided documents.\n\n"
-                    f"Response format for complete and unibiased information:\n"
+                    f"Answer the following instruction using only information from the provided documents if they are relevant.\n\n"
+                    f"Response format for complete and unbiased information:\n"
                     f"[Concise answer addressing the instruction]\n"
                     f"Learn more: [URL]\n\n"
                     f"Response format for unclear or insufficient information:\n"
                     f"Sorry, I don't have enough information to fully answer your question. You may find relevant details here: [URL]\n\n"
-                    
+
                     f"### Input:\n{input}\n\n"
                     f"### Instruction:\n{instruction}<|eot_id|>\n"
                     
                     f"<|start_header_id|>assistant<|end_header_id|>"
                 )
+               
 
             else:
                 formatted_prompt = (
@@ -196,6 +199,41 @@ class Llama_model:
             
         return formatted_prompt
 
+
+    def get_formatted_prompt4(self, instruction, input=None, output=None):
+
+            formatted_prompt = (
+                f"You are a knowledgeable assistant helping users find accurate information from the website of the University of Luxembourg. Your role is to:\n"
+                f"1. Provide a clear, direct answer based on the provided documents\n"
+                f"2. Ensure responses are factual and grounded in the source material\n"
+                f"3. Maintain a professional and helpful tone\n\n"
+                f"Guidelines:\n"
+                f"- Focus on the most relevant information from the Input documents\n"
+                f"- Include ALWAYS exactly one URL for the primary source\n"
+                f"- Keep responses concise and to the point\n"
+                f"- If the input or documents is insufficient, unclear or not relevant for the instruction, use the error response template<|eot_id|>\n\n"
+                
+                f"<|start_header_id|>user<|end_header_id|>\n\n"
+                f"Answer the following instruction using only information from the provided documents if they are relevant.\n\n"
+                f"### Response format for complete and unbiased information:\n"
+                f"[Concise answer addressing the instruction]\n"
+                f"Learn more: [URL]\n\n"
+                f"### Response format for unclear or insufficient information:\n"
+                f"Sorry, I don't have enough information to fully answer your question. You may find relevant details here: [URL]\n\n"
+                f"Positive example:\n"
+                f"User: Who is the rector of the University of Luxembourg?\n"
+                f"Assistant: The rector of the University of Luxembourg is Prof. Jens Kreisel. Learn more: https://www.uni.lu/fstm-en/people/jens-kreisel/\n\n"
+                f"Negative Example:\n"
+                f"User: How many male professors does the University of Luxembourg have?\n"
+                f"Assistant: Sorry, I do not have enough information to fully answer your question. You may find relevant details here: https://www.uni.lu/people/\n\n"
+                
+                f"### Input:\n{input}\n\n"
+                f"### Instruction:\n{instruction}<|eot_id|>\n"
+                
+                f"<|start_header_id|>assistant<|end_header_id|>"
+            )
+                   
+            return formatted_prompt
 
 
 
