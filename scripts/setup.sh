@@ -9,7 +9,7 @@ if [ ! -d "../data/webpages" ]; then
   echo "Directory 'data/webpages' has been created."
 fi
 
-echo "Did you already download the webpages? [Y/n]"
+echo "Do you want to download the webpages? [Y/n]\n If you already have ensure that they are in directory data/webpages/ and enter <n> !"
 read -r user_input
 
 if [[ "$user_input" =~ ^[Yy]$ ]]; then
