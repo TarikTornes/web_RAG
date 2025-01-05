@@ -3,12 +3,11 @@ __pycache__/
 *.py[cod]
 
 # Ignore everything in the data folder
-data/*
+data/webpages/*
+data/chunks.pkl
+data/embeddings.pkl
 models/*
-logs/*
+logs/chunks.log
+logs/execution.log
 
-# But do not ignore the data folder itself and its contents
-!data/
-!models/
-!logs/
 
