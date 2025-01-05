@@ -28,7 +28,7 @@ else
         echo "Running the script to chunk and embed the webpages..."
         cd ..
         python3 -m src.chunking.chunking_main # Replace with your actual script name
-        python3 -m src.embedding.embeddings_main # Replace with your actual script name
+        python3 -m src.embedding.embedding_main # Replace with your actual script name
         cd scripts
     else
         echo "Please perform webpage retrieval and place the 'chunks.pkl' and 'embeddings.pkl' files in the 'data/' directory."
