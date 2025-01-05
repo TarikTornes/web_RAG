@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Validate input
-if [ $# -eq 0 ]; then
+if [ $# -eq 0 ] || [ ! -d "$1" ];; then
     echo "Usage: $0 <input_directory>"
     exit 1
 fi

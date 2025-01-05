@@ -8,7 +8,7 @@ Paths:
   llama_cpp_path1: models/Meta-Llama-3-8B-Instruct-Q5_K_M.gguf
   llama_cpp_path: models/Meta-Llama-3.1-8B-Instruct-Q4_K_M.gguf
   embeddings_path: jinaai/jina-embeddings-v2-base-en
-  websites_root: ./data/test/www.uni.lu/
+  websites_root: ./data/webpages/www.uni.lu/
 
 Env_Variables:
   omp_num_threads: 1
