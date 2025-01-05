@@ -9,7 +9,8 @@ if [ ! -d "../data/webpages" ]; then
   echo "Directory 'data/webpages' has been created."
 fi
 
-echo "Do you want to download the webpages? [Y/n]\n If you already have ensure that they are in directory data/webpages/ and enter <n> !"
+echo "Do you want to download the webpages? [Y/n]"
+echo "If you already have ensure that they are in directory data/webpages/ and enter <n> !"
 read -r user_input
 
 if [[ "$user_input" =~ ^[Yy]$ ]]; then
@@ -18,7 +19,7 @@ if [[ "$user_input" =~ ^[Yy]$ ]]; then
     echo "Webpages will be downloaded now ..."
     sleep 2
 
-    if ./scripts/webpage_retrieval "$website_url"; then
+    if .webpage_retrieval "$website_url"; then
         echo "Webpages were successfully downloaded!"
         sleep 1
     else
@@ -32,7 +33,7 @@ fi
 echo "Content of downloaded webpages will extracted ..."
 sleep 1
 
-if ./scripts/extract_webtext ../data/webpages; then
+if .extract_webtext ../data/webpages; then
     echo "Content extraction successfully completed!"
 else
     echo "Error: Failed to extract content of webpages!"
