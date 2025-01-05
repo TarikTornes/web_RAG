@@ -2,6 +2,13 @@
 
 cd "$(dirname "$0")" || exit 1
 
+# Check if the directory data/webpages exists
+if [ ! -d "../data/webpages" ]; then
+  # If it doesn't exist, create the directory
+  mkdir -p "../data/webpages"
+  echo "Directory 'data/webpages' has been created."
+fi
+
 echo "Did you already download the webpages? [Y/n]"
 read -r user_input
 
