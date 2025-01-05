@@ -19,7 +19,7 @@ if [[ "$user_input" =~ ^[Yy]$ ]]; then
     echo "Webpages will be downloaded now ..."
     sleep 2
 
-    if .webpage_retrieval "$website_url"; then
+    if ./webpage_retrieval "$website_url"; then
         echo "Webpages were successfully downloaded!"
         sleep 1
     else
@@ -33,7 +33,7 @@ fi
 echo "Content of downloaded webpages will extracted ..."
 sleep 1
 
-if .extract_webtext ../data/webpages; then
+if ./extract_webtext ../data/webpages; then
     echo "Content extraction successfully completed!"
 else
     echo "Error: Failed to extract content of webpages!"
