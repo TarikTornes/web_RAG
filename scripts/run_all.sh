@@ -21,7 +21,7 @@ if [[ -f "$CHUNKS_FILE" && -f "$EMBEDDINGS_FILE" ]]; then
     cd scripts
 else
     echo "One or both required files are missing."
-    echo "Do you want to extract web files and download them locally? [Y/n]"
+    echo "Do you want to perform the necessary actions (chunking/embedding)? [Y/n]"
     read -r user_input
 
     if [[ "$user_input" =~ ^[Yy]$ ]]; then

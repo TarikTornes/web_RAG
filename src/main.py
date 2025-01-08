@@ -4,15 +4,15 @@ from .utils.check_device import check_device
 from .query.indexdb import IndexDB
 from .model.llama_model import Llama_model
 
-import pickle
+import pickle, os
 
 
 def main():
 
-    check_device()
-
+    
     config = load_conf()
-
+    check_device()
+    
     with open("data/embeddings.pkl", "rb") as f:
         data1 = pickle.load(f)
 
@@ -25,28 +25,36 @@ def main():
                  data2["chunks_dict"], 
                  data2["web_page_dict"])
 
-
+    
     model = Llama_model(config["Paths"]["llama_cpp_path"])
+    check_device()
 
 
     # Q&A Loop
     while True:
         log("INFO", "Started loop")
 
-        print("Whats your question (\"none\" to abort) ?")
+        print('#'*os.get_terminal_size().columns, "\n")
 
-        question = str(input())
+        print("    Whats your question (\"none\" to abort) ?")
+
+        question = str(input("\n>>>  "))
+        print(question)
 
         if question == "none":
             break
+        
+        print('\n'+'-'*os.get_terminal_size().columns)
+
 
         query_res = db.get_k_Results(question, config["General"]["k-nearest"])
         
         answer = model.getAnswer(query_res, question)
 
-        print(answer)
+        print(answer, "\n\n")
 
 
+        
 if __name__=="__main__":
     main()
 

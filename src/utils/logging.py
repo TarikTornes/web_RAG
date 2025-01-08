@@ -7,6 +7,7 @@ def log(category, message):
     log_file = cfg["General"]["log_file"]
     chunk_file = cfg["General"]["chunk_file"]
     timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
     if category == "QUERY_RESULTS":
         with open(chunk_file, 'a') as file:
             query_indicator= f"o ----------------------------------------------------------------------------------- \no\no[{timestamp}]\no\no ----------------------------------------------------------------------------------- \n"

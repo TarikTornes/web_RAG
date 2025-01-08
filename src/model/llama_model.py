@@ -245,7 +245,6 @@ class Llama_model:
         alpaca = self.get_formatted_prompt3(INSTRUCTION, input=input)
 
         answer = self.model(alpaca, max_tokens=MAX_TOKENS)
-        print("\n------------------------------------------\n")
         return answer['choices'][0]['text']
 
 
