@@ -39,7 +39,6 @@ def main():
         print("    Whats your question (\"none\" to abort) ?")
 
         question = str(input("\n>>>  "))
-        print(question)
 
         if question == "none":
             break
@@ -51,7 +50,7 @@ def main():
         
         answer = model.getAnswer(query_res, question)
 
-        print(answer, "\n\n")
+        print("\n")
 
 
         
