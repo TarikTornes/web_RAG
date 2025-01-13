@@ -41,7 +41,7 @@ class IndexDB:
             results.append((j, chunk, web_link))
             log("QUERY_RESULTS", str(["CHUNK", i, j, round(D[0][i], 3), \
                 round(cos_sim(query[0], vec), 3), \
-                re.sub('\n', ' ', self.chunks_dict[j])]))
+                                      re.sub('\n', ' ', self.chunks_dict[j])]) + f"URL: {web_link}")
 
         return results
 
