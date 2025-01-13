@@ -2,7 +2,7 @@
 
 cd "$(dirname "$0")" || exit 1
 
-# Check if the directory data/webpages exists
+# Checks if the directory data/webpages exists
 if [ ! -d "../data/webpages" ]; then
   # If it doesn't exist, create the directory
   mkdir -p "../data/webpages"
