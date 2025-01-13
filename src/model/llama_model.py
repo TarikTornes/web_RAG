@@ -159,7 +159,7 @@ class Llama_model:
 
 
 
-    def getAnswer2(self, query_results, INSTRUCTION, MAX_TOKENS=1024):
+    def getAnswer_print(self, query_results, INSTRUCTION, MAX_TOKENS=1024):
         input = instruction_format(query_results)
 
         alpaca = self.get_formatted_prompt_final(INSTRUCTION, input=input)
@@ -170,7 +170,7 @@ class Llama_model:
 
     def getAnswer(self, query_results, INSTRUCTION, MAX_TOKENS=1024):
         input = instruction_format(query_results)
-        alpaca = self.get_formatted_prompt3(INSTRUCTION, input=input)
+        alpaca = self.get_formatted_prompt_final(INSTRUCTION, input=input)
         full_answer = ""
         try:
 
