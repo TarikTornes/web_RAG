@@ -1,6 +1,7 @@
 # web_RAG
 
-This repository demonstrates a proof of concept for using a Retrieval-Augmented Generation (RAG) system as a helper bot for websites. The system is designed to assist users in retrieving information and navigating websites effectively.
+This repository demonstrates a proof of concept for using a Retrieval-Augmented Generation (RAG) system as a helper bot for websites. 
+The system is designed to assist users in retrieving information and navigating websites effectively.
 
 The project explores the feasibility of building a website assistant bot tailored for the University of Luxembourg. It was developed under the supervision of Prof. Martin Theobald.
 
@@ -55,18 +56,52 @@ Ensure the .gguf file is placed in the /data directory.
 ### 4. Configure settings
 Update the configuration file (`config.yaml`) to match your environment and data setup.
 
+---
 
-## Running the script
+## Setup the Bot
 1. Navigate to the root directory of the repository.
-2. Execute the following script to start the RAG system:
+2. Run `make` to create executables out of the bash scripts
+3. Run the following script to setup the system for your website.
+Depending on the size of the website the download might take 
+some time. If you have already downloaded it before, you can move it to
+the directory `/data/webpages/` and confirm with <n> that you already 
+have the webpages downloaded:
+    ```shell
+    # To download and/or extract content from HTML files
+    ./scrits/setup.sh
+    ```
+ 
+4. Run the following to create the necessary files for your RAG system:
+    ```shell
+    # To chunk and embed the website content
+    ./scripts/run_all.sh
+    ```
 
-```bash
-./scripts/run_all.sh
+--- 
+
+
+## Running the Bot
+Make sure you have successfully completed each of the four **Installation** steps.
+Now you can run your personal Website-Chatbot with:
+```shell
+python3 -m src.main
 ```
 
-### First-Time Setup
-- During the first run, you will be prompted to execute the chunking and embedding scripts. These steps must be completed at least once to process and save the website data.
-- Note: Depending on the website's size and your hardware, these steps may take significant time and resources. For large-scale websites, it is recommended to:
-    - Run the chunking and embedding scripts on a powerful VM with multiple cores.
-    - Allow the process to run overnight if necessary.
-    - Once complete, copy the generated pickled files to the /data directory on your local machine.
+---
+
+## Future Work
+- Implement more sophisticated chunking techniques:
+    - Graph-Based
+    - Structure-Based
+    - Hybrid approaches
+- Use different reranking techniques:
+    - RAGFusion
+    - MMR
+    - Re2G
+- Implement a simple way to connect to APIs like groq
+
+
+---
+
+
+## Examples
