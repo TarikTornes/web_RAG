@@ -6,7 +6,8 @@ __pycache__/
 data/webpages/*
 data/chunks.pkl
 data/embeddings.pkl
-models/*
+models/Meta-Llama-3.1-8B-Instruct-Q4_K_M.gguf
+models/Meta-Llama-3-8B-Instruct-Q5_K_M.gguf
 logs/chunks.log
 logs/execution.log
 
